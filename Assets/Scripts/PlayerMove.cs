@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShadowPlayer : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     private new Rigidbody rb;
     private new Collider collider;
 
+    [Header("To Link")]
+    public Transform graphic;
+
+    [Header("Properties")]
     public LayerMask wallLayer;
     public LayerMask floorLayer;
 
@@ -16,6 +20,9 @@ public class ShadowPlayer : MonoBehaviour
     [Header("States")]
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isTouchingFloor;
+
+    private float rotationAngle;
+
 
     private void Awake()
     {
@@ -33,7 +40,6 @@ public class ShadowPlayer : MonoBehaviour
 
         Vector2 move = new Vector2(horizontal, vertical);
         Move(move);
-
     }
 
     private void CheckWall()
@@ -48,19 +54,13 @@ public class ShadowPlayer : MonoBehaviour
 
     void Move(Vector2 direction)
     {
-        Vector3 vertical = Vector3.zero;
+        Vector3 vertical;
         if(direction.y > 0 && isTouchingWall)
-        {
             vertical = Vector3.up * direction.y;
-        }
         else if (direction.y < 0 && isTouchingFloor) 
-        {
             vertical = Vector3.forward * direction.y;
-        }
         else
-        {
             vertical = (isTouchingFloor ? Vector3.forward : Vector3.up) * direction.y;
-        }
 
         rb.velocity = Vector3.right * direction.x * moveSpeed + vertical;
     }
