@@ -32,16 +32,14 @@ public class PlayerMove : MonoBehaviour
 
         Vector2 move = new Vector2(horizontal, vertical);
         Move(move);
-
-        UpdatePosition();
     }
 
 
-    private void UpdatePosition()
+    private void FixedUpdate()
     {
-        float x = transform.position.x + velocity.x * Time.deltaTime;
-        float y = transform.position.y + velocity.y * Time.deltaTime;
-        float z = transform.position.z + velocity.z * Time.deltaTime;
+        float x = transform.position.x + velocity.x * Time.fixedDeltaTime;
+        float y = transform.position.y + velocity.y * Time.fixedDeltaTime;
+        float z = transform.position.z + velocity.z * Time.fixedDeltaTime;
 
         y = Mathf.Max(y, 0.01f);
         z = Mathf.Min(z, -0.01f);
