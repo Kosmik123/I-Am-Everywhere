@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+public class ShadowPlayer
+{
+    [SerializeField]
+    private float radius;
+
+
+
+}
+*/
+
 public class PlayerMove : MonoBehaviour
 {
     private new Rigidbody rb;
@@ -14,12 +26,12 @@ public class PlayerMove : MonoBehaviour
     public LayerMask wallLayer;
     public LayerMask floorLayer;
 
-    public float touchDistance;
+    public float radius;
     public float moveSpeed;
 
     [Header("States")]
-    [SerializeField] private bool isTouchingWall;
-    [SerializeField] private bool isTouchingFloor;
+    [SerializeField] private float wallTouching;
+    [SerializeField] private float floorTouching;
 
     private float rotationAngle;
 
@@ -32,8 +44,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        CheckWall();
-        CheckFloor();
+        floorTouching = CheckTouching(Vector3.down, floorLayer);
+        wallTouching = CheckTouching(Vector3.forward, wallLayer);
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -42,27 +54,24 @@ public class PlayerMove : MonoBehaviour
         Move(move);
     }
 
-    private void CheckWall()
+    private float CheckTouching(Vector3 direction, LayerMask layer)
     {
-        isTouchingWall = Physics.Raycast(transform.position, Vector3.forward, touchDistance, wallLayer);
-    }
-
-    private void CheckFloor()
-    {
-        isTouchingFloor = Physics.Raycast(transform.position, Vector3.down, touchDistance, floorLayer);
+        if(Physics.Raycast(transform.position, direction, out RaycastHit hitInfo, radius, layer))
+            return 1 - hitInfo.distance / radius;
+        return 0;
     }
 
     void Move(Vector2 direction)
     {
         Vector3 vertical;
-        if(direction.y > 0 && isTouchingWall)
+        if(direction.y > 0 && wallTouching > 0.5)
             vertical = Vector3.up * direction.y;
-        else if (direction.y < 0 && isTouchingFloor) 
+        else if (direction.y < 0 && floorTouching > 0.5) 
             vertical = Vector3.forward * direction.y;
         else
-            vertical = (isTouchingFloor ? Vector3.forward : Vector3.up) * direction.y;
+            vertical = (floorTouching > 0.9 ? Vector3.forward : Vector3.up) * direction.y;
 
-        rb.velocity = Vector3.right * direction.x * moveSpeed + vertical;
+        rb.velocity = direction.x * moveSpeed * Vector3.right + vertical;
     }
 
 
@@ -71,8 +80,8 @@ public class PlayerMove : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * touchDistance);
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.forward * touchDistance);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * radius);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.forward * radius);
     }
 
 
