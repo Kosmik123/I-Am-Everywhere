@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [RequireComponent(typeof(ShadowPlayer))]
 public class PlayerMove : MonoBehaviour
 {
@@ -44,7 +43,7 @@ public class PlayerMove : MonoBehaviour
         else if (direction.y < 0 && player.floorTouching > ShadowPlayer.TOUCH_DISTANCE) 
             vertical = Vector3.forward * direction.y;
         else
-            vertical = (player.floorTouching > ShadowPlayer.TOUCH_DISTANCE ? Vector3.forward : Vector3.up) * direction.y;
+            vertical = (player.wallTouching > ShadowPlayer.TOUCH_DISTANCE ?  Vector3.up : Vector3.forward) * direction.y;
 
         rb.velocity = direction.x * moveSpeed * Vector3.right + vertical;
     }

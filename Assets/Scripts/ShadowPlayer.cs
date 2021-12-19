@@ -5,10 +5,11 @@ public class ShadowPlayer : MonoBehaviour
     public const float TOUCH_DISTANCE = 0.99f;
 
     [Header("Properties")]
+    public float radius;
     [SerializeField]
-    private float radius;
-    public LayerMask wallLayer;
-    public LayerMask floorLayer;
+    private LayerMask wallLayer;
+    [SerializeField]
+    private LayerMask floorLayer;
 
     [Header("States")]
     public float wallTouching;
