@@ -2,7 +2,7 @@
 
 public class ShadowPlayer : MonoBehaviour
 {
-    public const float TOUCH_DISTANCE = 0.99f;
+    public const float TOUCH_DISTANCE = 0.9f;
 
     [Header("Properties")]
     public float radius;
