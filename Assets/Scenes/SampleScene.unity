@@ -949,6 +949,78 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Time
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_MinVertexDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.textureMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.28541216
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].time
+      value: 0.6596985
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.27830124
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.19138044
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].inSlope
+      value: -0.059428368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
+      value: -0.40042463
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].inSlope
+      value: -0.28443685
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
+      value: -0.059428368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outSlope
+      value: -0.40042463
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].inWeight
+      value: 0.3640004
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].outSlope
+      value: -0.28443685
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outWeight
+      value: 0.5978469
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474170620697937452, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outWeight
+      value: 0.31803247
+      objectReference: {fileID: 0}
     - target: {fileID: 4965523589072571313, guid: 05e8aa6f78ebe3644aa5d9229f2a45d6, type: 3}
       propertyPath: m_Enabled
       value: 1
