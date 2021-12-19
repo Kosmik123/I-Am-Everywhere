@@ -157,9 +157,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4965523589072571314}
-  - component: {fileID: 4965523589072571317}
   - component: {fileID: 4965523589072571312}
+  - component: {fileID: 5750184008671180043}
   - component: {fileID: 692671425631507552}
+  - component: {fileID: 5882126851809194524}
   - component: {fileID: 4965523589072571313}
   - component: {fileID: 7809632066693140464}
   m_Layer: 3
@@ -185,19 +186,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4965523589072571317
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4965523589072571318}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4965523589072571312
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -214,6 +202,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!135 &5750184008671180043
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965523589072571318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &692671425631507552
 Animator:
   serializedVersion: 3
@@ -233,6 +234,27 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5882126851809194524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965523589072571318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7d7596186dd6241acbef93afb871f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.5
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  wallTouching: 0
+  floorTouching: 0
 --- !u!114 &4965523589072571313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,16 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphic: {fileID: 5139944221353109966}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  touchDistance: 0.1
   moveSpeed: 2
-  isTouchingWall: 0
-  isTouchingFloor: 0
 --- !u!114 &7809632066693140464
 MonoBehaviour:
   m_ObjectHideFlags: 0
