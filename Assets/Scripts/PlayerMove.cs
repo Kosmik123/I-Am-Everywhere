@@ -16,9 +16,8 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed;
 
 
-    [Header("States")]
-    public Vector3 velocity;
-
+    //[Header("States")]
+    public Vector2 move;
     private float rotationAngle;
 
 
@@ -33,18 +32,18 @@ public class PlayerMove : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector2 move = new Vector2(horizontal, vertical);
+        move = new Vector2(horizontal, vertical);
         Move(move);
     }
 
 
     private void _FixedUpdate()
     {
-        float x = transform.position.x + velocity.x * Time.fixedDeltaTime;
-        float y = transform.position.y + velocity.y * Time.fixedDeltaTime;
-        float z = transform.position.z + velocity.z * Time.fixedDeltaTime;
+        //float x = transform.position.x + velocity.x * Time.fixedDeltaTime;
+        //float y = transform.position.y + velocity.y * Time.fixedDeltaTime;
+        //float z = transform.position.z + velocity.z * Time.fixedDeltaTime;
 
-        transform.position = new Vector3(x, y, z);
+        ///transform.position = new Vector3(x, y, z);
     }
 
     void Move(Vector2 direction)

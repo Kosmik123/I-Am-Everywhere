@@ -8,23 +8,31 @@ public class UIController : MonoBehaviour
 {
     [Header("To Link")]
     public Image damagePanel;
+    public TMPro.TMP_Text pointsText;
 
+    [Header("Settings")]
     public AnimationCurve damageAnimCurve;
-
 
     private float progress = 1;
     
     private void OnEnable()
     {
         progress = 1;
-        PlayerHealthController.OnTakeDamage += ShowDamage;
+        Health.OnChangeHealth += ShowDamage;
     }
 
 
-    private void ShowDamage(int obj)
+    private void ShowDamage(int points)
     {
-        progress = 0;  
+        progress = 0;
+        pointsText.text = points.ToString();
     }
+
+    private void RefreshPoints(int points)
+    {
+
+    }
+
 
 
     void Update()
@@ -40,7 +48,7 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerHealthController.OnTakeDamage -= ShowDamage;
+        Health.OnChangeHealth -= ShowDamage;
 
     }
 }
