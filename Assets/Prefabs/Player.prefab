@@ -352,6 +352,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7583b57a2558c95469e6816a37d74b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionPoints: []
+  objectsLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  directionalLights: []
+  pointLights: []
+  isInLight: 0
+  testLightCheck: 0
 --- !u!1 &5016683067659920623
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,11 +28,11 @@ public class LightDetection : MonoBehaviour
     {
         bend = GetComponent<ShadowBend>();
         player = GetComponent<ShadowPlayer>();
+        calculatedPoints = new Vector3[detectionPoints.Length];
     }
 
     void Start()
     {
-        calculatedPoints = new Vector3[detectionPoints.Length];
         radius = player.radius;
     }
 
@@ -58,13 +58,9 @@ public class LightDetection : MonoBehaviour
                 float z = Mathf.Min(0, point.y - bendPos);
 
                 if (bendPoint > 0)
-                {
                     z += bendPos;
-                }
                 else
-                {
                     y += bendPos;
-                }
 
                 calculatedPoints[i] = new Vector3(x, y, z);
             }
@@ -96,7 +92,6 @@ public class LightDetection : MonoBehaviour
         isInLight = false;
     }
 
-
     private bool IsPointInPointLight(Vector3 point, Light pointLight)
     {
         Vector3 lightPos = pointLight.transform.position;
@@ -109,8 +104,11 @@ public class LightDetection : MonoBehaviour
         return !Physics.Raycast(point, lightRotation * Vector3.back, 100, objectsLayer);
     }
 
-
-
+    public bool IsInLight()
+    {
+        CheckLights();
+        return isInLight;
+    }
 
     private void OnValidate()
     {
