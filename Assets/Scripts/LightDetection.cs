@@ -15,6 +15,10 @@ public class LightDetection : MonoBehaviour
     public Light[] directionalLights;
     public Light[] pointLights;
 
+    [Range(0,1)]
+    public float pointLightRangeModifier;
+
+
     private float radius;
 
     [Header("States")]
@@ -95,11 +99,18 @@ public class LightDetection : MonoBehaviour
     private bool IsPointInPointLight(Vector3 point, Light pointLight)
     {
         Vector3 lightPos = pointLight.transform.position;
+        if (!pointLight.enabled)
+            return false;
+        if ((lightPos - point).magnitude > pointLight.range * pointLightRangeModifier)
+            return false;
+
         return !Physics.Raycast(point, lightPos - point, 100, objectsLayer);
     }
 
     private bool IsPointInDirectionalLight(Vector3 point, Light directionalLight)
     {
+        if (!directionalLight.enabled)
+            return false;
         Quaternion lightRotation = directionalLight.transform.rotation;
         return !Physics.Raycast(point, lightRotation * Vector3.back, 100, objectsLayer);
     }

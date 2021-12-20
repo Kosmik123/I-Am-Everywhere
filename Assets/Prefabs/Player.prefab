@@ -352,12 +352,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7583b57a2558c95469e6816a37d74b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionPoints: []
+  detectionPoints:
+  - {x: 0.46, y: 0.2}
+  - {x: -0.41, y: -0.16}
+  - {x: -0.06, y: 0.41}
+  - {x: -0.1, y: -0.37}
   objectsLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   directionalLights: []
   pointLights: []
+  pointLightRangeModifier: 0.5
   isInLight: 0
   testLightCheck: 0
 --- !u!1 &5016683067659920623
