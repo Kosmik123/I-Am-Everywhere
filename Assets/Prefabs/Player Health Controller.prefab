@@ -59,4 +59,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightDetection: {fileID: 0}
   waitTime: 0.3
-  lightDamage: 1
+  lightDamage: 5

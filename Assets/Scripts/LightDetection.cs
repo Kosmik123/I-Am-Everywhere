@@ -42,34 +42,14 @@ public class LightDetection : MonoBehaviour
 
     void Update()
     {
-        float bendPoint = bend.bendPoint;
+        float bendDegree = bend.bendPoint * radius;
         for (int i = 0; i < calculatedPoints.Length; i++)
         {
             Vector2 point = detectionPoints[i];
-            if (bendPoint < -ShadowPlayer.TOUCH_DISTANCE)
-            {
-                calculatedPoints[i] = new Vector3(point.x, point.y);
-            }
-            else if (bendPoint > ShadowPlayer.TOUCH_DISTANCE)
-            {
-                calculatedPoints[i] = new Vector3(point.x, 0, point.y);
-            }
-            else
-            {
-                float bendPos = bendPoint * radius;
-                float x = calculatedPoints[i].x;
-                float y = Mathf.Max(0, point.y - bendPos);
-                float z = Mathf.Min(0, point.y - bendPos);
-
-                if (bendPoint > 0)
-                    z += bendPos;
-                else
-                    y += bendPos;
-
-                calculatedPoints[i] = new Vector3(x, y, z);
-            }
+            calculatedPoints[i] = BendedTransform.CalculatePoint(point, bendDegree);
         }
     }
+
 
     private void CheckLights()
     {

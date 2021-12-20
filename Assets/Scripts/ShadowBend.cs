@@ -15,14 +15,16 @@ public class ShadowBend : MonoBehaviour
     private ShadowPlayer player;
 
     [Header("To Link")]
-    public Transform graphic;
     public MeshFilter meshFilter;
+    public BendedTransform[] bendedObjects;
 
     [Header("States")]
     public float bendPoint;
 
-    public Vector3[] verts;
-    public Vector2[] uvs;
+    private Vector3[] verts;
+    private Vector2[] uvs;
+
+
 
     private Mesh mesh;
 
@@ -35,7 +37,7 @@ public class ShadowBend : MonoBehaviour
     {
         mesh = meshFilter.mesh;
         bendPoint = 1;
-        
+
         CreateShape();
 
         RefreshMesh();
@@ -51,12 +53,16 @@ public class ShadowBend : MonoBehaviour
         else
             bendPoint = player.floorTouching - player.wallTouching;
 
-       // if (bendPoint > -1 && bendPoint < 1)
+        CreateShape();
+        RefreshMesh();
+
+        foreach(var obj in bendedObjects)
         {
-            CreateShape();
-            RefreshMesh();
+            obj.BendPosition(bendPoint * player.radius);
         }
+
     }
+
 
     private void CreateShape()
     {
@@ -94,12 +100,19 @@ public class ShadowBend : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+
+    private void OnValidate()
+    {
+        foreach (var obj in bendedObjects)
+            obj.Validate();
+    }
+
     private void OnDrawGizmos()
     {
         if (player != null)
         {
             Vector3 borderPoint = new Vector3(player.radius, 0);
-            Vector3 bendPosition = transform.position + player.radius * bendPoint * Vector3.forward ;
+            Vector3 bendPosition = transform.position + player.radius * bendPoint * Vector3.forward;
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(bendPosition - borderPoint, bendPosition + borderPoint);
         }

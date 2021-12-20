@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     private ShadowPlayer player;
+    private Rigidbody rb;
+
 
     [Header("To Link")]
     public Transform graphic;
@@ -22,6 +24,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         player = GetComponent<ShadowPlayer>();
     }
 
@@ -35,14 +38,11 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+    private void _FixedUpdate()
     {
         float x = transform.position.x + velocity.x * Time.fixedDeltaTime;
         float y = transform.position.y + velocity.y * Time.fixedDeltaTime;
         float z = transform.position.z + velocity.z * Time.fixedDeltaTime;
-
-        y = Mathf.Max(y, 0.01f);
-        z = Mathf.Min(z, -0.01f);
 
         transform.position = new Vector3(x, y, z);
     }
@@ -57,7 +57,7 @@ public class PlayerMove : MonoBehaviour
         else
             vertical = (player.floorTouching > ShadowPlayer.TOUCH_DISTANCE ? Vector3.forward : Vector3.up) * direction.y;
 
-        velocity = direction.x * moveSpeed * Vector3.right + moveSpeed * vertical;
+        rb.velocity = direction.x * moveSpeed * Vector3.right + moveSpeed * vertical;
     }
 
 }
