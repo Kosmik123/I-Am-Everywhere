@@ -9,6 +9,9 @@ public class UIController : MonoBehaviour
     [Header("To Link")]
     public Image damagePanel;
     public TMPro.TMP_Text pointsText;
+    public Image endPanel;
+    public TMPro.TMP_Text endText;
+
 
     [Header("Settings")]
     public AnimationCurve damageAnimCurve;
@@ -19,6 +22,25 @@ public class UIController : MonoBehaviour
     {
         progress = 1;
         Health.OnChangeHealth += ShowDamage;
+        Health.OnDie += ShowGameOver;
+    }
+
+    private void ShowGameOver()
+    {
+        endPanel.enabled = true;
+        endPanel.color = Color.white;
+
+        endText.text = "GAME OVER";
+        endText.color = Color.black;
+    }
+
+    private void ShowVictory()
+    {
+        endPanel.enabled = true;
+        endPanel.color = Color.black;
+
+        endText.text = "VICTORY";
+        endText.color = Color.white;
     }
 
 
@@ -27,13 +49,6 @@ public class UIController : MonoBehaviour
         progress = 0;
         pointsText.text = points.ToString();
     }
-
-    private void RefreshPoints(int points)
-    {
-
-    }
-
-
 
     void Update()
     {

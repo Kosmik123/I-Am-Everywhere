@@ -27,6 +27,17 @@ public class PlayerMove : MonoBehaviour
         player = GetComponent<ShadowPlayer>();
     }
 
+    private void OnEnable()
+    {
+        Health.OnDie += Disable;
+    }
+
+    private void Disable()
+    {
+        enabled = false;
+    }
+
+
     private void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
