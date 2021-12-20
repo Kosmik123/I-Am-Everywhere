@@ -16,8 +16,6 @@ public class ShadowPlayer : MonoBehaviour
     public float floorTouching;
 
 
-
-
     private void Update()
     {
         floorTouching = CheckTouching(Vector3.down, floorLayer);

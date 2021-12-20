@@ -2,35 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ShadowBend))]
 public class LightDetection : MonoBehaviour
 {
+    private ShadowBend bend;
+    private ShadowPlayer player;
+
     [Header("Settings")]
-    public Vector3[] detectionPoints;
+    public Vector2[] detectionPoints;
     public LayerMask objectsLayer;
 
     public Light[] directionalLights;
     public Light[] pointLights;
 
+    private float radius;
 
     [Header("States")]
+    private Vector3[] calculatedPoints;
+
     public bool isInLight;
 
     public bool testLightCheck;
 
-    void Start()
+    private void Awake()
     {
-        
+        bend = GetComponent<ShadowBend>();
+        player = GetComponent<ShadowPlayer>();
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        calculatedPoints = new Vector3[detectionPoints.Length];
+        radius = player.radius;
+    }
+
     void Update()
     {
-        
+        float bendPoint = bend.bendPoint;
+        for (int i = 0; i < calculatedPoints.Length; i++)
+        {
+            Vector2 point = detectionPoints[i];
+            if (bendPoint < -ShadowPlayer.TOUCH_DISTANCE)
+            {
+                calculatedPoints[i] = new Vector3(point.x, point.y);
+            }
+            else if (bendPoint > ShadowPlayer.TOUCH_DISTANCE)
+            {
+                calculatedPoints[i] = new Vector3(point.x, 0, point.y);
+            }
+            else
+            {
+                float bendPos = bendPoint * radius;
+                float x = calculatedPoints[i].x;
+                float y = Mathf.Max(0, point.y - bendPos);
+                float z = Mathf.Min(0, point.y - bendPos);
+
+                if (bendPoint > 0)
+                {
+                    z += bendPos;
+                }
+                else
+                {
+                    y += bendPos;
+                }
+
+                calculatedPoints[i] = new Vector3(x, y, z);
+            }
+        }
     }
 
     private void CheckLights()
     {
-        foreach(var point in detectionPoints)
+        foreach(var point in calculatedPoints)
         {
             foreach(var light in directionalLights)
             {
@@ -49,8 +92,6 @@ public class LightDetection : MonoBehaviour
                     return;
                 }
             }
-
-
         }
         isInLight = false;
     }
@@ -73,6 +114,16 @@ public class LightDetection : MonoBehaviour
 
     private void OnValidate()
     {
+        player = GetComponent<ShadowPlayer>();
+        for(int i = 0; i < detectionPoints.Length; i++)
+        {
+            Vector2 point = detectionPoints[i];
+            float x = Mathf.Clamp(point.x, -player.radius, player.radius);
+            float y = Mathf.Clamp(point.y, -player.radius, player.radius);
+            detectionPoints[i] = new Vector2(x, y);
+        }
+
+
         if(testLightCheck)
         {
             testLightCheck = false;
@@ -83,10 +134,12 @@ public class LightDetection : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        foreach (var point in detectionPoints)
-        {
-            Gizmos.DrawSphere(transform.position + point, 0.1f);
-        }
+        if (Application.isPlaying)
+            foreach (var point in calculatedPoints)
+                Gizmos.DrawSphere(transform.position + point, 0.05f);
+        else
+            foreach (var point in detectionPoints)
+                Gizmos.DrawSphere(transform.position + (Vector3)point, 0.05f);
 
     }
 
