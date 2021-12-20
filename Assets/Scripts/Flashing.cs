@@ -9,6 +9,7 @@ public class Flashing : MonoBehaviour
     public AnimationCurve curve;
     public float speed;
     public float disableThreshold;
+    public float baseIntensity;
 
     private float progress;
 
@@ -19,14 +20,14 @@ public class Flashing : MonoBehaviour
 
     private void Update()
     {
-        progress += Time.deltaTime;
+        progress += speed * Time.deltaTime;
         if (progress > 1)
             progress = 0;
 
         float intensity = curve.Evaluate(progress);
 
-        light.intensity = intensity;
-        light.enabled = intensity < disableThreshold;
+        light.intensity = intensity * baseIntensity;
+        light.enabled = intensity > disableThreshold;
     }
 
 
