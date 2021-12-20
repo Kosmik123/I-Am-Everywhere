@@ -28,8 +28,8 @@ public class PlayerFollow : MonoBehaviour
 
         float xCam = x + Mathf.Tan(Mathf.Deg2Rad * angle) * (transform.position.z - player.position.z);
 
-        transform.position = new Vector3(xCam, transform.position.y, transform.position.z);
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angle, transform.rotation.eulerAngles.z);
+        transform.localPosition = new Vector3(xCam, transform.position.y, transform.position.z);
+        transform.localRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, angle, transform.rotation.eulerAngles.z);
     }
 
 
