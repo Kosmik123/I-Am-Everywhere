@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
         progress = 1;
         Health.OnChangeHealth += ShowDamage;
         Health.OnDie += ShowGameOver;
+        Finish.OnVictory += ShowVictory;
     }
 
     private void ShowGameOver()

@@ -30,6 +30,7 @@ public class PlayerMove : MonoBehaviour
     private void OnEnable()
     {
         Health.OnDie += Disable;
+        Finish.OnVictory += Disable;
     }
 
     private void Disable()
