@@ -37,13 +37,15 @@ public class Rotation : MonoBehaviour
     
     private void OnValidate()
     {
+        if(axix == Vector3.zero)
+            axis = Vector3.up;
         Vector3.Normalize(axis);
     }
     
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(transform.position, transform.position + axis * 5);
+        Gizmos.DrawLine(transform.position - transform.rotation * axis * 2, transform.position + transform.rotation * axis * 2);
     }
     
 }
