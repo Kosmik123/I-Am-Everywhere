@@ -37,7 +37,7 @@ public class Rotation : MonoBehaviour
     
     private void OnValidate()
     {
-        Normalize(axis);
+        Vector3.Normalize(axis);
     }
     
     private void OnDrawGizmos()
