@@ -37,7 +37,7 @@ public class Rotation : MonoBehaviour
     
     private void OnValidate()
     {
-        if(axix == Vector3.zero)
+        if(axis == Vector3.zero)
             axis = Vector3.up;
         Vector3.Normalize(axis);
     }
