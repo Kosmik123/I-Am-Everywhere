@@ -7,6 +7,8 @@ public class Rotation : MonoBehaviour
 
     public float startAngle;
     public float endAngle;
+    
+    public Vector3 axis;
 
     // states
     private float progress;
@@ -23,7 +25,7 @@ public class Rotation : MonoBehaviour
         float modifiedProgress = moveCurve.Evaluate(progress);
 
         float currentAngle = Mathf.Lerp(startAngle, endAngle, modifiedProgress);
-        transform.localRotation = Quaternion.AngleAxis(currentAngle, Vector3.forward);
+        transform.localRotation = Quaternion.AngleAxis(currentAngle, axis);
     }
 
     private void UpdateProgress()
@@ -32,4 +34,16 @@ public class Rotation : MonoBehaviour
         if (progress >= 1)
             progress = 0;
     }
+    
+    private void OnValidate()
+    {
+        Normalize(axis);
+    }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + axis * 5);
+    }
+    
 }
