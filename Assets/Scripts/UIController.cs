@@ -44,7 +44,6 @@ public class UIController : MonoBehaviour
         endText.color = Color.white;
     }
 
-
     private void ShowDamage(int points)
     {
         progress = 0;
@@ -65,6 +64,5 @@ public class UIController : MonoBehaviour
     private void OnDisable()
     {
         Health.OnChangeHealth -= ShowDamage;
-
     }
 }

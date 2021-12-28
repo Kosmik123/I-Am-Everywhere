@@ -23,10 +23,11 @@ public class LightDetection : MonoBehaviour
 
     [Header("States")]
     private Vector3[] calculatedPoints;
-
     public bool isInLight;
 
+    [Header("Debug")]
     public bool testLightCheck;
+    public bool showLines;
 
     private void Awake()
     {
@@ -124,11 +125,38 @@ public class LightDetection : MonoBehaviour
     {
         Gizmos.color = Color.red;
         if (Application.isPlaying)
+        {
             foreach (var point in calculatedPoints)
                 Gizmos.DrawSphere(transform.position + point, 0.05f);
+
+            if (showLines)
+            {
+                foreach (var point in calculatedPoints)
+                {
+                    foreach (var light in directionalLights)
+                    {
+                        bool inLight = IsPointInDirectionalLight(transform.position + point, light);
+                        Gizmos.color = inLight ? Color.yellow : new Color(1, 1, 1, 0.2f);
+                        Gizmos.DrawLine(light.transform.position, transform.position + point);
+                    }
+
+                    foreach (var light in pointLights)
+                    {
+                        bool inLight = IsPointInPointLight(transform.position + point, light);
+                        Gizmos.color = inLight ? Color.yellow : new Color(1, 1, 1, 0.2f);
+
+                        Gizmos.DrawLine(light.transform.position, transform.position + point);
+                    }
+                }
+            }
+        }
         else
+        {
             foreach (var point in detectionPoints)
                 Gizmos.DrawSphere(transform.position + (Vector3)point, 0.05f);
+
+        }
+       
 
     }
 
