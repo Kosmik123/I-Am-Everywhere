@@ -6,6 +6,7 @@ using UnityEngine;
 public class MeshGenerator : MonoBehaviour
 {
     Mesh mesh;
+    [SerializeField] float width, height, length;
     private Vector3[] vertices;
     private int[] triangles;
     void Start()
@@ -23,13 +24,14 @@ public class MeshGenerator : MonoBehaviour
         {
             new Vector3(0,0,0),
             new Vector3(0,1,0),
-            new Vector3(1,0,0)
+            new Vector3(1,0,0),
+            new Vector3(1,1,0)
         };
 
         triangles = new int[]
         {
-            0,1,2
-            //1,3,2
+            0,1,2,
+            1,3,2
         };
     }
 
