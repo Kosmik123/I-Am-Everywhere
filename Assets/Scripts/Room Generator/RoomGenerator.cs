@@ -7,6 +7,7 @@ public class RoomGenerator : MonoBehaviour
     [Header("ROOM PARTS")]
     [SerializeField] Transform wall;
     [SerializeField] Transform floor;
+    [SerializeField] Transform ceilling;
 
     [Header("ROOM SIZE")]
     [SerializeField] float width = 1;
@@ -27,10 +28,16 @@ public class RoomGenerator : MonoBehaviour
         floorScale.y = depth;
         floor.localScale = floorScale;
 
+        ceilling.localScale = -floorScale;
+
         Vector3 wallPosition = wall.localPosition;
         wallPosition.y = height * 0.5f;
         wallPosition.z = depth * 0.5f;
         wall.localPosition = wallPosition;
+
+        Vector3 ceillingPosition = ceilling.localPosition;
+        ceillingPosition.y = height;
+        ceilling.localPosition = ceillingPosition;
     }
 
     private void OnValidate()
