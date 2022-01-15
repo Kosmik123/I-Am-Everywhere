@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(ShadowPlayer))]
 public class PlayerMove : MonoBehaviour
 {
+    private Controls input;
     private ShadowPlayer player;
     private Rigidbody rb;
 
@@ -23,17 +24,20 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        input = new Controls();
         rb = GetComponent<Rigidbody>();
         player = GetComponent<ShadowPlayer>();
     }
 
     private void OnEnable()
     {
-        Health.OnDie += Disable;
-        Finish.OnVictory += Disable;
+        Health.OnDie += DisableMovement;
+        Finish.OnVictory += DisableMovement;
+
+        input.Player.Enable();
     }
 
-    private void Disable()
+    private void DisableMovement()
     {
         enabled = false;
     }
@@ -41,10 +45,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        move = new Vector2(horizontal, vertical);
+        move = input.Player.Movement.ReadValue<Vector2>();
         Move(move);
     }
 
