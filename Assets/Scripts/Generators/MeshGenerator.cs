@@ -6,10 +6,20 @@ using UnityEngine;
 public class MeshGenerator : MonoBehaviour
 {
     Mesh mesh;
-    [SerializeField] float width, height, length;
+    [SerializeField] float width, height, depth;
     private Vector3[] vertices;
     private int[] triangles;
     void Start()
+    {
+
+    }
+
+    private void OnValidate()
+    {
+        GenerateMesh();
+    }
+
+    private void GenerateMesh()
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
