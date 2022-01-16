@@ -1,11 +1,12 @@
+using Shadow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EyeMovement : MonoBehaviour
 {
-    public PlayerMove playerMove;
-    public ShadowBend shadowBend;
+    public PlayerMovement playerMove;
+    public MeshBend shadowBend;
 
     public float maxExtent;
 

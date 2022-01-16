@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shadow;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class PlayerHealthController : MonoBehaviour
     private Health player;
 
     [Header("To Link")]
-    public LightDetection lightDetection;
+    public Shadow.LightDetection lightDetection;
 
     [Header("Settings")]
     public float waitTime;
