@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ShadowBend))]
@@ -12,8 +10,12 @@ public class LightDetection : MonoBehaviour
     public Vector2[] detectionPoints;
     public LayerMask objectsLayer;
 
-    public Light[] directionalLights;
-    public Light[] pointLights;
+    [SerializeField]
+    private Light[] directionalLights;
+    [SerializeField]
+    private Light[] pointLights;
+    [SerializeField]
+    private Light[] spotLights;
 
     [Range(0,1)]
     public float pointLightRangeModifier;
@@ -50,7 +52,6 @@ public class LightDetection : MonoBehaviour
         }
     }
 
-
     private void CheckLights()
     {
         foreach(var point in calculatedPoints)
@@ -72,6 +73,15 @@ public class LightDetection : MonoBehaviour
                     return;
                 }
             }
+
+            foreach (var light in spotLights)
+            {
+				if (IsPointInSpotLight(transform.position + point, light))
+				{
+					isInLight = true;
+					return;
+				}
+			}
         }
         isInLight = false;
     }
@@ -84,7 +94,8 @@ public class LightDetection : MonoBehaviour
         if ((lightPos - point).magnitude > pointLight.range * pointLightRangeModifier)
             return false;
 
-        return !Physics.Raycast(point, lightPos - point, 100, objectsLayer);
+        var direction = lightPos - point;
+		return !Physics.Raycast(point,  direction, 100, objectsLayer) && !Physics.Raycast(lightPos, -direction, 100, objectsLayer);
     }
 
     private bool IsPointInDirectionalLight(Vector3 point, Light directionalLight)
@@ -93,6 +104,12 @@ public class LightDetection : MonoBehaviour
             return false;
         Quaternion lightRotation = directionalLight.transform.rotation;
         return !Physics.Raycast(point, lightRotation * Vector3.back, 100, objectsLayer);
+    }
+
+    private bool IsPointInSpotLight(Vector3 point, Light spotLight)
+    {
+        var receivedLightAmount = Lumi.SampleSpotLight(spotLight, point, objectsLayer);
+        return receivedLightAmount > 0.01f;
     }
 
     public bool IsInLight()
@@ -158,5 +175,104 @@ public class LightDetection : MonoBehaviour
        
 
     }
+
+
+}
+
+
+public static class Lumi
+{
+	private const float RedCoef = 0.2989f;
+	private const float GreenCoef = 0.5870f;
+	private const float BlueCoef = 0.1140f;
+
+    public static float SamplePointLight(Light light, Vector3 samplePoint, LayerMask lightRaycastMask, bool perceivedBrightness = false)
+	{
+		Transform lightTransform = light.transform;
+		Vector3 rayDirectionMag = samplePoint - lightTransform.position;
+		float lightDistance = rayDirectionMag.magnitude;
+		if (lightDistance > light.range)
+		{
+			return 0;
+		}
+
+		if (light.shadows != LightShadows.None)
+		{
+			Vector3 rayDirectionNorm = rayDirectionMag.normalized;
+			if (Physics.Raycast(lightTransform.position, rayDirectionNorm, lightDistance, lightRaycastMask))
+			{
+				return 0;
+			}
+		}
+
+		float inverseSquareRange = 1f / Mathf.Max(light.range * light.range, 0.00001f);
+
+		float distanceSqr = Mathf.Max(rayDirectionMag.sqrMagnitude, 0.00001f);
+		float rangeAttenuation = Mathf.Sqrt(Mathf.Min(1.0f - Mathf.Sqrt(distanceSqr * inverseSquareRange), 1));
+		float attenuation = rangeAttenuation / distanceSqr;
+
+		attenuation = Mathf.Min(1, attenuation);
+
+		float lightIntensity = light.intensity;
+		if (perceivedBrightness)
+		{
+			float adjustedColorInt = (light.color.r * RedCoef) + (light.color.g * GreenCoef) + (light.color.b * BlueCoef);
+			lightIntensity *= adjustedColorInt;
+		}
+
+		return attenuation * lightIntensity;
+	}
+
+	public static float SampleSpotLight(Light light, Vector3 samplePoint, LayerMask lightRaycastMask, bool perceivedBrightness = false)
+	{
+		Transform lightTransform = light.transform;
+		Vector3 rayDirectionMag = samplePoint - lightTransform.position;
+		float lightDistance = rayDirectionMag.magnitude;
+		if (lightDistance > light.range)
+		{
+			return 0;
+		}
+
+		Vector3 rayDirectionNorm = rayDirectionMag.normalized;
+		float outerCos = Mathf.Cos(Mathf.Deg2Rad * 0.5f * light.spotAngle);
+		float forwardDotRay = Vector3.Dot(lightTransform.forward, rayDirectionNorm);
+		if (forwardDotRay < outerCos)
+		{
+			return 0;
+		}
+
+		if (light.shadows != LightShadows.None)
+		{
+			if (Physics.Raycast(lightTransform.position, rayDirectionNorm, lightDistance, lightRaycastMask))
+			{
+				return 0;
+			}
+		}
+
+		float inverseSquareRange = 1f / Mathf.Max(light.range * light.range, 0.00001f);
+
+		float distanceSqr = Mathf.Max(rayDirectionMag.sqrMagnitude, 0.00001f);
+		float rangeAttenuation = Mathf.Sqrt(Mathf.Min(1.0f - Mathf.Sqrt(distanceSqr * inverseSquareRange), 1));
+
+		float innerCos = Mathf.Cos(Mathf.Deg2Rad * 0.5f * light.innerSpotAngle);
+		float angleRangeInv = 1f / Mathf.Max(innerCos - outerCos, 0.001f);
+		float spotAnglesInner = angleRangeInv;
+		float spotAnglesOuter = -outerCos * angleRangeInv;
+
+		float spotAttenuation = Mathf.Sqrt(Mathf.Clamp01(forwardDotRay * spotAnglesInner + spotAnglesOuter));
+		float attenuation = spotAttenuation * (rangeAttenuation / distanceSqr);
+
+		attenuation = Mathf.Min(1, attenuation);
+
+		float lightIntensity = light.intensity;
+		if (perceivedBrightness)
+		{
+			float adjustedColorInt =
+				(light.color.r * RedCoef) + (light.color.g * GreenCoef) + (light.color.b * BlueCoef);
+			lightIntensity = lightIntensity * adjustedColorInt;
+		}
+
+		return attenuation * lightIntensity;
+	}
 
 }
