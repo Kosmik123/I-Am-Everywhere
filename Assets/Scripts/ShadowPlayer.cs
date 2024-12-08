@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ShadowPlayer : MonoBehaviour
 {
@@ -13,10 +14,17 @@ public class ShadowPlayer : MonoBehaviour
 
     [Header("States")]
     public float wallTouching;
-    public float floorTouching;
+	public float floorTouching;
 
+	private void Awake()
+	{
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, radius, floorLayer))
+        {
+            transform.position = hitInfo.point + Vector3.up * 0.001f;
+        }
+	}
 
-    private void Update()
+	private void Update()
     {
         floorTouching = CheckTouching(Vector3.down, floorLayer);
         wallTouching = CheckTouching(Vector3.forward, wallLayer);
